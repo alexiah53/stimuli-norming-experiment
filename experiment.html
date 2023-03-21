@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Language Experiment
+	</title><!--JS-->
+	<!-- external general utilities -->
+	<script src="shared/js/jquery-1.11.1.min.js"></script>
+	<script src="shared/full-projects/jquery-ui/jquery-ui.min.js"></script>
+	<script src="shared/js/underscore-min.js"></script>
+	<script src="shared/js/mmturkey.js"></script>
+	<script src="shared/js/uniqueturker.js"></script>
+
+	<!-- experiment logic -->
+	<script src="shared/js/exp-V2.js"></script>
+	<script src="shared/js/stream-V2.js"></script>
+
+	<!-- general utilities -->
+	<script src="shared/js/browserCheck.js"></script>
+	<script src="shared/js/utils.js"></script>
+	<link href="shared/full-projects/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css">
+	<link href="shared/css/cocolab-style.css" rel="stylesheet" type="text/css">
+	<link href="css/local-style.css" rel="stylesheet" type="text/css">
+
+	<!-- experiment file -->
+	<script src="js/experiment.js"></script>
+
+	<!-- stimulus file -->
+	<!-- <script src="js/stimuli.js"></script> -->
+	<script src="js/stimuli.js"></script>
+	
+	<!-- unique turker -->  
+
+	<script type="text/JavaScript">
+
+		$(document).ready(function(){
+
+			var ut_id = "26e23328d90bbbc4fe942008e3cf9805";
+
+			var ut_response = UTWorkerLimitReached(ut_id);
+
+			console.log("Unique turker response" +  ut_response);
+
+			if (ut_response) {
+
+				$(".slide").hide();
+
+				$("body").html("You have already completed the maximum number of HITs allowed by this requester. Please click 'Return HIT' to avoid any impact on your approval rating.");
+
+			}});
+
+		</script>
+
+	</head>
+
+	<body onload="init()">
+		<noscript>This task requires JavaScript.</noscript>
+
+		<!-- initial slide -->
+		<div class="slide" id="i0">
+			<p class="center">
+				<br>
+				<br> 
+				You will listen to a series of short phrases spoken by different people. <br>
+				<br>  <strong> Your task is to make decisions about the speakers' identities and voices. </strong><br>
+				<br>
+				The experiment will take approximately 20 minutes.
+			</p><button id="start_button" type="button">Start experiment</button>
+			<p class="left legal">
+				<strong><br>
+					<br>
+					<br>
+				LEGAL INFORMATION</strong>:<br>
+				Nonmedical Human Participants Consent Form and Waiver of Documentation
+
+				<br>		STUDY TITLE: Language Production and Comprehension Studies
+
+				Protocol Director: Meghan Sumner
+
+				<br>		DESCRIPTION: We invite you to participate in a research study on language production and comprehension. In this experiment, you will complete a linguistic task online such as reading sentences or words, naming pictures or describing scenes, making up sentences of your own, or participating in a simple language game. 
+				<br>		RISKS AND BENEFITS: There are no known risks, costs, or discomforts in this study and this judgment is based on a large body of experience with the same or similar procedures with people of similar ages, sex, origins, etc.  We cannot and do not guarantee or promise that you will receive any benefits from this study. You will help us to understand how people recognize and perceive auditory stimuli. 
+				<br>		TIME INVOLVEMENT: Your participation in this experiment will take less than one hour.
+				<br>		PAYMENTS: You will be paid for your participation at the posted rate, consisted with online payment standards.
+				<br>		SUBJECT'S RIGHTS: If you have read this form and have decided to participate in this project, please understand your participation is voluntary and you have the right to withdraw your consent or discontinue participation at any time without penalty or loss of benefits to which you are otherwise entitled. You have the right to refuse to answer particular questions. Your individual privacy will be maintained in all published and written data resulting from the study.
+				<br>		CONTACT INFORMATION:
+				Questions, Concerns, or Complaints: If you have any questions, concerns or complaints about this research study, its procedures, risks and benefits, please contact Prof. Meghan Sumner at (650) 723-4284.
+
+				Independent Contact: If you are not satisfied with how this study is being conducted, or if you have any concerns, complaints, or general questions about the research or your rights as a participant, please contact the Stanford Institutional Review Board (IRB) to speak to someone independent of the research team at (650)-723-2480 or toll free at 1-866-680-2906. You can also write to the Stanford IRB, Stanford University, Stanford, CA 94305-5401 or email irbnonmed@stanford.edu.
+
+				<br>		WAIVER OF DOCUMENTATION:
+				If you agree to participate in this research, please continue to begin the study. 
+
+				<br>		IRB approval date: 4/29/21
+				Expiration date: (Does not expire) 
+
+
+			</p>
+		</div>
+
+
+		<!-- sound test slide -->
+		<div class="slide" id="sound_test">
+			<div class="text-center">
+				<br><br><br>
+				<strong>Please wear headphones throughout this task.</strong>
+				<br><br>
+				Press the play button to hear what word to type in the box. Once you type the word in the box below, you can continue.
+				<br><br>
+				<audio id="soundtest" controls src='soundtest.wav'> </audio>
+				<br><br>
+				<input type="text" class="sound_test">
+				<br><br>
+				<button id="soundtest_OK" onclick="_s.soundtest_OK()"> Continue </button>
+
+				<div class="err">
+					<br>
+					<p>
+						Please listen to the audio and type in the word indicated.
+					</p>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- main instructions slide -->
+		<div class="slide" id="startExp">
+			<br>
+			<br>
+			<p id="instruct-text" class="center">
+				Great! Now we can start the real task. You will listen to a number of phrases spoken by a variety of people. <br><br> <strong> Don't forget to use headphones!</strong><br><br> You will be asked to judge the speaker's race/ethnicity, accentedness, and attributes. <br><br>  <br><br>
+			</p>
+			<div class="center">
+				<button class="continueButton" onclick="_s.button()">Continue</button>
+			</div>
+		</div>
+
+
+		<!-- words slide -->
+		<div class="slide" id="follow_up">
+			<div class="center">
+				<br><br>Please answer the questions below about the speakers and their voices.
+				<br><br>
+				You won't be prompted to supply your responses until you've listened to the audio. 
+				<br><br>
+				Play Audio:
+				<br><br>
+
+				<audio controls id="stimuli_audio"> 
+					<source id="wav_src" src="audio" type="audio/wav"> 
+					</audio>
+
+					<br><br>
+					Please write down the last word from the clip you just heard:
+					<br>
+					<input type="text" id="attention_check">
+					<!-- <br><br> -->
+
+					<p> Speaker's race/ethnicity: <br>
+						<div class="race" id = "race_impression">    
+							<span>
+								<input id="White or Caucasian" name = "race_impressions" type="checkbox" value="White or Caucasian"/>
+								<label for="race">White or Caucasian</label>
+							</span> 
+							<br>
+							<span>
+								<input id="Black or African American" name = "race_impressions" type="checkbox" value="Black or African American"/>
+								<label for="race">Black or African American</label>
+							</span>    
+							<br>
+							<span>
+								<input id="Hispanic or Latinx" name = "race_impressions" type="checkbox" value="Hispanic or Latinx"/>
+								<label for="race">Hispanic or Latina/o</label>
+							</span>
+							<br>
+							<span>
+								<input id="Native American or Alaskan Native" name = "race_impressions" type="checkbox" value="Native American or Alaskan Native"/>
+								<label for="race">Native American or Alaskan Native</label>
+							</span>
+							<br>
+							<span>
+								<input id=" Asian or Pacific Islander" name = "race_impressions" type="checkbox" value=" Asian or Pacific Islander"/>
+								<label for="race"> Asian or Pacific Islander</label>
+							</span>
+							<br>
+						</div>
+					</p>
+
+					<p> How sure are you about your selection? <br>
+
+						<div class="slidecontainer" id="certainty_slider_container">
+							<p><i>Not Certain</i> <input onclick="_s.make_dot_visible_certainty()" type="range" min="0" max="100" value="50" class="slider" id="certainty_slider"> <i>Very Certain</i></p>
+						</div>
+
+						Speaker's accentedness: <br>
+						<div class="slidecontainer" id="accentedness_slider_container">
+							<p><i>Not Accented</i> <input onclick="_s.make_dot_visible_accentedness()" type="range" min="0" max="100" value="50" class="slider" id="accentedness"> <i>Very Accented</i></p>
+						</div>
+
+						<p class="center">
+							<p>
+								An adjective (or more) that describes this speaker's identity: 
+								<br>
+								<input type="text" id="reaction_1"> 
+								<br>
+							</p>
+
+
+							<div class="err">
+								<p> 
+									<strong>Please select at least one racial/ethnic identity, adjust all sliders, and provide at least one adjective.</strong>
+								</p>
+							</div>
+
+							<button class="continueButton" onclick="_s.button_follow_up()">Continue</button>
+
+						</div>
+					</div>
+
+
+					<!-- subject information slide -->
+					<div class="slide" id="subj_info">
+						<div class="long_form">
+							<div class="subj_info_title">
+								Questionnaire Section
+							</div>
+
+							<br>
+							Gender: <select id="gender">
+								<option value="">
+								</option>
+								<option value="Male">
+									Male
+								</option>
+								<option value="Female">
+									Female
+								</option>
+								<option value="Other">
+									Other
+								</option>
+								<option value="Prefer not to say">
+									Prefer not to say
+								</option>
+							</select>
+						</p>
+
+						<p>
+							Age: <input type="text" id="age">
+						</p>
+						<p>
+							Level of Education: <select id="education">
+								<option value="">
+								</option>
+								<option value="Some high school">
+									Some high school
+								</option>
+								<option value="Graduated high school">
+									Graduated high school
+								</option>
+								<option value="Some college">
+									Some college
+								</option>
+								<option value="Graduated college">
+									Graduated college
+								</option>
+								<option value="Hold a higher degree">
+									Hold a higher degree
+								</option>
+								<option value="Prefer not to say">
+									Prefer not to say
+								</option>
+							</select>
+						</p>
+
+						<p> *Race/Ethnicity: <br>
+							<div class="race">    
+								<span>
+									<input id="White or Caucasian" name = "race" type="checkbox" value="White or Caucasian"/>
+									<label for="race">White or Caucasian</label>
+								</span> 
+								<br>
+								<span>
+									<input id="Black or African American" name = "race" type="checkbox" value="Black or African American"/>
+									<label for="race">Black or African American</label>
+								</span>    
+								<br>
+								<span>
+									<input id="Hispanic or Latinx" name = "race" type="checkbox" value="Hispanic or Latinx"/>
+									<label for="race">Hispanic or Latina/o</label>
+								</span>
+								<br>
+								<span>
+									<input id="Native American or Alaskan Native" name = "race" type="checkbox" value="Native American or Alaskan Native"/>
+									<label for="race">Native American or Alaskan Native</label>
+								</span>
+								<br>
+								<span>
+									<input id=" Asian or Pacific Islander" name = "race" type="checkbox" value=" Asian or Pacific Islander"/>
+									<label for="race"> Asian or Pacific Islander</label>
+								</span>
+								<br>
+								<span>
+									<input id="Prefer not to say" name = "race" type="checkbox" value="Prefer not to say"/>
+									<label for="race">Prefer not to say</label>
+								</span>
+							</div>
+						</p>
+
+						<p>
+							Heritage Countries (if not US): <input type="text" id="heritage_country">
+						</p>
+
+						<p>
+							*Current City, State: <input type="text" id="current_region">
+						</p>
+						<p>
+							Other Cities, States Lived In: <input type="text" id="other_regions">
+						</p>		
+
+						<p>
+							*Exposure to Hispanic/ Latina/o Population: <select id="exposure">
+								<option value="">
+								</option>
+								<option value="Daily">
+									On a daily basis
+								</option>
+								<option value="Weekly">
+									On a weekly basis
+								</option>
+								<option value="Monthly">
+									On a monthly basis
+								</option>
+								<option value="Yearly">
+									On a yearly basis
+								</option>
+								<option value="Prefer not to say">
+									Prefer not to say
+								</option>
+							</select>
+						</p>	
+
+						<p>
+							Please leave any comments you have about this experiment here:
+						</p>
+						<textarea id="comments" rows="3" cols="50"></textarea><br>
+						<button onclick="_s.submit()">Submit</button>
+
+						<div class="err">
+							<p>
+								Please answer every required question.
+							</p>
+						</div>
+
+					</div>
+				</div>
+
+				<!-- final slide -->
+				<div id="thanks" class="slide js">
+					<p class="big">
+						Thanks for your time!
+					</p>
+				</div>
+
+				<!-- progress bar -->
+				<div class="progress">
+					<span>Progress:</span>
+					<div class="bar-wrapper">
+						<div class="bar" style="width: 0%"></div>
+					</div>
+				</div>
+			</body>
+			</html>
