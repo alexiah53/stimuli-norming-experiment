@@ -116,8 +116,8 @@ $("#attention_check").show();
 
 			if  (!$("#reaction_1").val() |
 				!$("#attention_check").val() |
-				!$("#accentedness").val() |
-				!$("#certainty_slider").val() |
+				$("#accentedness").val() == 50 |
+				$("#certainty_slider").val() == 50 |
 				check_race_impression.length < 1 ) {
 
 				$(".err").show();
