@@ -70,6 +70,20 @@ function make_slides(f) {
 			document.getElementById("accentedness").value = 50;
 			document.getElementById("attention_check").value = "";
 
+
+// moved this up--problem?
+this.stim = stim;
+
+var random_word = _.shuffle(exp.non_stimuli);
+random_non_stim1 = random_word[0];
+random_non_stim2 = random_word[1];
+random_non_stim3 = random_word[2];
+var last_word_options = [this.stim.last_word, random_non_stim1.last_word, random_non_stim2.last_word, random_non_stim3.last_word];
+last_word_options = _.shuffle(last_word_options);
+
+			radiobuttonhtml = '<input type="radio" id="option-1" name="attention_check" value="' + last_word_options[0] + '">' + last_word_options[0] + '</input>' + ' &emsp;&emsp; <input type="radio" id="option-2" name="attention_check" value="' + last_word_options[1]+ '">' + last_word_options[1] + '</input>' + ' &emsp;&emsp; <input type="radio" id="option-3" name="attention_check" value="' + last_word_options[2]+ '">' + last_word_options[2] + '</input>' + ' &emsp;&emsp; <input type="radio" id="option-4" name="attention_check" value="' + last_word_options[3]+ '">' + last_word_options[3] + '</input>'
+			document.getElementById("attention_check").innerHTML = radiobuttonhtml
+
 			checks_to_clear = document.getElementsByName("race_impressions");
 			for (var i = 0; i < checks_to_clear.length; i++) {
 				checks_to_clear[[i]].checked = false;
@@ -81,7 +95,7 @@ function make_slides(f) {
 			$(".err").hide();  
 
 		        // store stimulus data
-			this.stim = stim;
+			// this.stim = stim;
 
 // this gets element from html file
 			var impression_aud = document.getElementById("stimuli_audio");
@@ -114,8 +128,14 @@ $("#attention_check").show();
 
 			var check_race_impression = document.querySelectorAll('[name="race_impressions"]:checked');
 
+			var attention_check_response = document.querySelectorAll('[name="attention_check"]:checked');
+			// exp.attention_check = attention_check_response;
+
 			if  (!$("#reaction_1").val() |
-				!$("#attention_check").val() |
+				// !$("#attention_check").val() |
+				// !attention_check_response | 
+				// attention_check_response.checked == false |
+				!$('input[name="attention_check"]:checked').val() |
 				$("#accentedness").val() == 50 |
 				$("#certainty_slider").val() == 50 |
 				check_race_impression.length < 1 ) {
@@ -125,6 +145,9 @@ $("#attention_check").show();
 
 		else {
 			
+
+			// var attention_check_response = document.querySelectorAll('[name="attention_check"]:checked');
+
 			var race_impression = document.querySelectorAll('[name="race_impressions"]:checked');
 			exp.race_impression_list = [];
 			for (var i = 0; i < race_impression.length; i++) {
@@ -146,12 +169,13 @@ $("#attention_check").show();
    		stim_num: this.stim.stim_num,
    		participant: this.stim.participant,
    		phrase: this.stim.phrase,
+   		last_word: this.stim.last_word,
    		gender: this.stim.gender,
    		start_time: this.stim.start_time,
    		end_time: this.stim.end_time,
    		duration: this.stim.duration,
 
-   		attention_check: $("#attention_check").val(),
+   		attention_check: $('input[name="attention_check"]:checked').val(),
 			accentedness: $("#accentedness").val(),
 			reaction_1:$("#reaction_1").val(),
 			certainty:$("#certainty_slider").val(),
@@ -224,9 +248,9 @@ $("#attention_check").show();
 		start: function() {
 			exp.data = {
 				"trials": exp.data_trials,
-				"catch_trials": exp.catch_trials,
+				// "catch_trials": exp.catch_trials,
 				"system": exp.system,
-				"condition": exp.condition,
+				// "condition": exp.condition,
 				"subject_information": exp.subj_data,
 				"time_in_minutes": (Date.now() - exp.startT) / 60000
 			};
@@ -246,6 +270,10 @@ function init() {
 	var stimuli = all_stims;
 
   exp.stimuli = _.shuffle(stimuli); //call _.shuffle(stimuli) to randomize the order;
+
+// for attention check words
+  exp.non_stimuli = exp.stimuli.slice(76, 298);
+   // console.log(exp.non_stimuli)
 
   exp.stimuli = exp.stimuli.slice(0, 75);
 
