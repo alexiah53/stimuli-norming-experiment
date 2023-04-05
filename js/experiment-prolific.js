@@ -70,6 +70,21 @@ function make_slides(f) {
 			document.getElementById("accentedness").value = 50;
 			document.getElementById("attention_check").value = "";
 
+
+// moved this up--problem?
+this.stim = stim;
+
+var random_word = _.shuffle(exp.non_stimuli);
+random_non_stim1 = random_word[0];
+random_non_stim2 = random_word[1];
+random_non_stim3 = random_word[2];
+var last_word_options = [this.stim.last_word, random_non_stim1.last_word, random_non_stim2.last_word, random_non_stim3.last_word];
+last_word_options = _.shuffle(last_word_options);
+
+			radiobuttonhtml = '<input type="radio" id="option-1" name="attention_check" value="' + last_word_options[0] + '">' + last_word_options[0] + '</input>' + ' &emsp;&emsp; <input type="radio" id="option-2" name="attention_check" value="' + last_word_options[1]+ '">' + last_word_options[1] + '</input>' + ' &emsp;&emsp; <input type="radio" id="option-3" name="attention_check" value="' + last_word_options[2]+ '">' + last_word_options[2] + '</input>' + ' &emsp;&emsp; <input type="radio" id="option-4" name="attention_check" value="' + last_word_options[3]+ '">' + last_word_options[3] + '</input>'
+			document.getElementById("attention_check").innerHTML = radiobuttonhtml
+
+
 			checks_to_clear = document.getElementsByName("race_impressions");
 			for (var i = 0; i < checks_to_clear.length; i++) {
 				checks_to_clear[[i]].checked = false;
@@ -81,7 +96,7 @@ function make_slides(f) {
 			$(".err").hide();  
 
 		        // store stimulus data
-			this.stim = stim;
+			// this.stim = stim;
 
 // this gets element from html file
 			var impression_aud = document.getElementById("stimuli_audio");
@@ -115,7 +130,7 @@ $("#attention_check").show();
 			var check_race_impression = document.querySelectorAll('[name="race_impressions"]:checked');
 
 			if  (!$("#reaction_1").val() |
-				!$("#attention_check").val() |
+				!$('input[name="attention_check"]:checked').val() |
 				$("#accentedness").val() == 50 |
 				$("#certainty_slider").val() == 50 |
 				check_race_impression.length < 1 ) {
@@ -151,7 +166,7 @@ $("#attention_check").show();
    		end_time: this.stim.end_time,
    		duration: this.stim.duration,
 
-   		attention_check: $("#attention_check").val(),
+   		attention_check: $('input[name="attention_check"]:checked').val(),
 			accentedness: $("#accentedness").val(),
 			reaction_1:$("#reaction_1").val(),
 			certainty:$("#certainty_slider").val(),
@@ -283,19 +298,19 @@ function init() {
   $('.slide').hide(); //hide everything
 
 // this is for prolific
-  // $("#start_button").click(function() {
-  //   exp.go();
-  // });
+  $("#start_button").click(function() {
+    exp.go();
+  });
 
   // this is for mturk
-  $("#start_button").click(function() {
-  	if (turk.previewMode) {
-  		$("#mustaccept").show();
-  	} else {
-  		$("#start_button").click(function() {$("#mustaccept").show();});
-  		exp.go();
-  	}
-  });
+  // $("#start_button").click(function() {
+  // 	if (turk.previewMode) {
+  // 		$("#mustaccept").show();
+  // 	} else {
+  // 		$("#start_button").click(function() {$("#mustaccept").show();});
+  // 		exp.go();
+  // 	}
+  // });
 
   exp.go(); //show first slide
 }
